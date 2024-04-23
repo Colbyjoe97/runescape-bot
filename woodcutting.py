@@ -70,15 +70,11 @@ allTrees = os.listdir(treeList)
 for tree in allTrees:
     print(tree)
     try:
-        testPath = r'images/trees/varrock/normal/'+tree 
-        this_cvTree = cv2.imread(testPath)
-        # print(this_cvTree)
+        this_cvTree = cv2.imread(r'images/trees/varrock/normal/'+tree, 0)
 
         this_pyTree = pyautogui.locateOnScreen(f'images/trees/varrock/normal/{tree}', confidence=0.8, )
         print(this_pyTree)
         
-        # rect = cv2.rectangle(this_pyTree, (this_pyTree.top,this_pyTree.left), (this_pyTree.top-10,this_pyTree.left+10), (0,0,0), -1)
-        # rect = cv2.rectangle(this_cvTree, (5,5), (220,220), (0,255,0), 2)
         rect = cv2.rectangle(this_cvTree, (5,5), (this_pyTree.width-5,this_pyTree.height-5), (0,255,0), 2)
         
         cv2.imshow(window_name, rect)
