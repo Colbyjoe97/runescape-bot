@@ -1,4 +1,5 @@
 import pyautogui
+from main import setCamera
 import random
 import os
 
@@ -11,8 +12,8 @@ def moveRandom(img):
 
 
 # FINDING BANKER
-startPath = 'images/banker'
-img_list = os.listdir(startPath)
+bankerList = 'images/banker'
+img_list = os.listdir(bankerList)
 print(img_list)
 
 def bank():
@@ -30,21 +31,23 @@ def bank():
 
 def gear_up():
     try:
-        axe = pyautogui.locateOnScreen('images/tools/bAxeBank.png', confidence=0.9)
+        axe = pyautogui.locateOnScreen('images/tools/bAxeBank.png', confidence=0.8)
+        knife = pyautogui.locateOnScreen('images/tools/knifeBank.png', confidence=0.8)
 
-        x = random.random()*-axe.width
-        y = random.random()*-axe.height
-        pyautogui.moveTo((axe.left-x), (axe.top-y), duration=0.5)
+        moveRandom(knife)
         pyautogui.click()
-
+        pyautogui.sleep(1)
+        
+        moveRandom(axe)
+        pyautogui.click()
         pyautogui.sleep(1)
 
-        axe = pyautogui.locateOnScreen('images/tools/bAxeInv.png', confidence=0.9)
-        x = random.random()*-axe.width
-        y = random.random()*-axe.height
-        pyautogui.moveTo((axe.left-x), (axe.top-y), duration=0.5)
-        pyautogui.hold('shift')
+        axe = pyautogui.locateOnScreen('images/tools/bAxeInv.png', confidence=0.8)
+        moveRandom(axe)
+
+        pyautogui.keyDown('shift')
         pyautogui.click()
+        pyautogui.keyUp('shift')
 
     except:
         print('ERROR')
@@ -53,7 +56,7 @@ def gear_up():
 
 
 
-
+setCamera()
 bank()
 pyautogui.sleep(2)
 gear_up()

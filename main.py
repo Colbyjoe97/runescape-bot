@@ -4,9 +4,9 @@ import random
 # GENERAL USE
 # fullHealth = pyautogui.locateOnScreen('images/full-health.png', confidence=0.8)
 
-bArrows = pyautogui.locateOnScreen('images/bronze-arrows.png', confidence=0.8)
-bShield = pyautogui.locateOnScreen('images/bshield.png', confidence=0.8)
-bSword = pyautogui.locateOnScreen('images/bsword2.png', confidence=0.8)
+# bArrows = pyautogui.locateOnScreen('images/bronze-arrows.png', confidence=0.8)
+# bShield = pyautogui.locateOnScreen('images/bshield.png', confidence=0.8)
+# bSword = pyautogui.locateOnScreen('images/bsword2.png', confidence=0.8)
 
 # print(fullHealth)
 # print(bShield)
@@ -14,7 +14,7 @@ bSword = pyautogui.locateOnScreen('images/bsword2.png', confidence=0.8)
 
 # FUNCTIONS
 # gear = [bShield, bArrows]
-gear = [bArrows, bShield, bSword]
+# gear = [bArrows, bShield, bSword]
 def equip():
     for slot in gear:
         print(slot)
@@ -33,10 +33,10 @@ def setCamera():
 
 
 
-# # GAME SIZE = 765 X 500
-run = True
-while run:
-    # setCamera()
-    equip()
-    # run = False
+# # GAME SIZE = 900 x 700
+# run = True
+# while run:
+#     setCamera()
+#     equip()
+#     run = False
     
