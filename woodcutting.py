@@ -138,8 +138,8 @@ def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_
         return points
 
 
-# points = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='points')
-# print(points)
+points = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='points')
+print(points)
 
 rectangles = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='rectangles')
 print(rectangles)
