@@ -67,55 +67,82 @@ def varrock_trees():
 
 # # FINDING TREES
 
-haystack = cv2.imread('images/trees/haystack2.png', cv2.IMREAD_UNCHANGED)
+def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_mode=None):
 
-treedle = cv2.imread('images/trees/treedle4.png', cv2.IMREAD_UNCHANGED)
+    # GETTINGS IMAGES
+    haystack = cv2.imread(haystack_img_path, cv2.IMREAD_UNCHANGED)
+    treedle = cv2.imread(needle_img_path, cv2.IMREAD_UNCHANGED)
 
-# cv2.imshow('haystack', haystack)
-# cv2.waitKey()
-# cv2.destroyAllWindows()
-
-# cv2.imshow('treedle', treedle)
-# cv2.waitKey()
-# cv2.destroyAllWindows()
-
-result = cv2.matchTemplate(haystack, treedle, cv2.TM_CCOEFF_NORMED)
-
-# cv2.imshow('result', result)
-# cv2.waitKey()
-# cv2.destroyAllWindows()
-
-min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-print(max_loc, max_val)
-w = treedle.shape[1]
-h = treedle.shape[0]
-print(w, h)
-cv2.rectangle(haystack, max_loc, (max_loc[0] + w, max_loc[1] + h), (0,255,0), 2)
-
-# cv2.imshow('haystack', haystack)
-# cv2.waitKey()
-# cv2.destroyAllWindows()
-# pyautogui.moveTo(316, 262)
-
-threshold = 0.3
-yloc, xloc = np.where(result >= threshold)
-print(len(xloc))
-
-rectangles = []
-for (x, y) in zip(xloc, yloc):
-    rectangles.append([int(x), int(y), int(w), int(h)])
-    rectangles.append([int(x), int(y), int(w), int(h)])
-
-rectangles, weights = cv2.groupRectangles(rectangles, 1, 0.2)
-
-for (x, y, w, h) in rectangles:
-    cv2.rectangle(haystack, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-# cv2.imshow('haystack', haystack)
-# cv2.waitKey()
-# cv2.destroyAllWindows()
+    # SIZE OF NEEDLE IMG
+    needle_h = treedle.shape[0]
+    needle_w = treedle.shape[1]
 
 
+    # FOUND BEST RESULTS WERE CCOEFF_NORMED HERE
+    method = cv2.TM_CCOEFF_NORMED
+    result = cv2.matchTemplate(haystack, treedle, cv2.TM_CCOEFF_NORMED)
+
+    # GETS THE BEST MATCHED POSITION
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    print("best matchests top-left pos: ", max_loc, "best match confidence: ", max_val)
+
+    locations = np.where(result >= threshold)
+    locations = list(zip(*locations[::-1]))
+    print('Found ', len(locations), 'locations')
+
+    # GROUPING RECTANGLES AND REMOVING OVERLAP
+    rectangles = []
+    for loc in locations:
+        rect = [int(loc[0]), int(loc[1]), needle_w, needle_h]
+        rectangles.append(rect)
+        rectangles.append(rect)
+
+    rectangles, weights = cv2.groupRectangles(rectangles, 1, 0.5)
+
+    points = []
+    if len(rectangles):
+        print('found needle')
+
+        # dimensions of needle img
+        line_color = (0, 255, 0)
+        line_type = cv2.LINE_4
+
+        marker_color = (255, 0, 255)
+        marker_type = cv2.MARKER_CROSS
+        
+        for (x, y, w, h) in rectangles:
+
+            # GETTING CERNTER POSITION
+            center_x = x + int(w / 2)
+            center_y = y + int(h / 2)
+
+            # SAVING THE POINTS
+            points.append((center_x, center_y))
+
+            if debug_mode == 'rectangles':
+            
+                # FINDING BOX POSITIONS
+                top_left = (x, y)
+                bottom_right = (x + w, y + h)
+
+                # DRAWING THE BOX
+                cv2.rectangle(haystack, top_left, bottom_right, line_color, line_type)
+
+            elif debug_mode == 'points':
+                cv2.drawMarker(haystack, (center_x, center_y), marker_color, marker_type)
+        
+        if debug_mode:
+            cv2.imshow('Matches', haystack)
+            cv2.waitKey()
+
+        return points
+
+
+# points = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='points')
+# print(points)
+
+rectangles = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='rectangles')
+print(rectangles)
 
 
 
