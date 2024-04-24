@@ -3,6 +3,7 @@ from main import setCamera
 import random
 import os
 import cv2
+import numpy as np
 
 window_name = 'RuneLite'
 
@@ -65,29 +66,58 @@ def varrock_trees():
     
 
 # # FINDING TREES
-treeList = 'images/trees/varrock/normal'
-allTrees = os.listdir(treeList)
-for tree in allTrees:
-    print(tree)
-    try:
-        this_cvTree = cv2.imread(r'images/trees/varrock/normal/'+tree, 0)
 
-        this_pyTree = pyautogui.locateOnScreen(f'images/trees/varrock/normal/{tree}', confidence=0.8, )
-        print(this_pyTree)
-        
-        rect = cv2.rectangle(this_cvTree, (5,5), (this_pyTree.width-5,this_pyTree.height-5), (0,255,0), 2)
-        
-        cv2.imshow(window_name, rect)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        # moveRandom(this_tree)
-    except:
-        print(f'TREE NOT FOUND')
+haystack = cv2.imread('images/trees/haystack2.png', cv2.IMREAD_UNCHANGED)
+
+treedle = cv2.imread('images/trees/treedle4.png', cv2.IMREAD_UNCHANGED)
+
+# cv2.imshow('haystack', haystack)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
+
+# cv2.imshow('treedle', treedle)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
+
+result = cv2.matchTemplate(haystack, treedle, cv2.TM_CCOEFF_NORMED)
+
+# cv2.imshow('result', result)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
+
+min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+print(max_loc, max_val)
+w = treedle.shape[1]
+h = treedle.shape[0]
+print(w, h)
+cv2.rectangle(haystack, max_loc, (max_loc[0] + w, max_loc[1] + h), (0,255,0), 2)
+
+# cv2.imshow('haystack', haystack)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
+# pyautogui.moveTo(316, 262)
+
+threshold = 0.3
+yloc, xloc = np.where(result >= threshold)
+print(len(xloc))
+
+rectangles = []
+for (x, y) in zip(xloc, yloc):
+    rectangles.append([int(x), int(y), int(w), int(h)])
+    rectangles.append([int(x), int(y), int(w), int(h)])
+
+rectangles, weights = cv2.groupRectangles(rectangles, 1, 0.2)
+
+for (x, y, w, h) in rectangles:
+    cv2.rectangle(haystack, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+# cv2.imshow('haystack', haystack)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
 
 
-# test2 = pyautogui.locateOnScreen('images/trees/varrock/normal/normal2.png', confidence=0.8)
-# print(test)
-# cv2.rectangle(test,(test2.top, test2.left),(test2.top-50,test2.right+50),(0,0,255),5)
+
+
 
 
 # setCamera()
