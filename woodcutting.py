@@ -2,10 +2,12 @@ import pyautogui
 from main import setCamera
 import random
 import os
-import cv2
+import cv2 as cv
 import numpy as np
+# import win32gui, win32ui, win32con
 
 window_name = 'RuneLite'
+# hwnd = win32gui.FindWindow(None, window_name)
 
 # UNIVERSAL FUNCTIONS
 def moveRandom(img):
@@ -70,8 +72,8 @@ def varrock_trees():
 def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_mode=None):
 
     # GETTINGS IMAGES
-    haystack = cv2.imread(haystack_img_path, cv2.IMREAD_UNCHANGED)
-    treedle = cv2.imread(needle_img_path, cv2.IMREAD_UNCHANGED)
+    haystack = cv.imread(haystack_img_path, cv.IMREAD_UNCHANGED)
+    treedle = cv.imread(needle_img_path, cv.IMREAD_UNCHANGED)
 
     # SIZE OF NEEDLE IMG
     needle_h = treedle.shape[0]
@@ -79,11 +81,11 @@ def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_
 
 
     # FOUND BEST RESULTS WERE CCOEFF_NORMED HERE
-    method = cv2.TM_CCOEFF_NORMED
-    result = cv2.matchTemplate(haystack, treedle, cv2.TM_CCOEFF_NORMED)
+    method = cv.TM_CCOEFF_NORMED
+    result = cv.matchTemplate(haystack, treedle, cv.TM_CCOEFF_NORMED)
 
     # GETS THE BEST MATCHED POSITION
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    min_val, max_val, min_loc, max_loc = cv.minMaxLoc(result)
     print("best matchests top-left pos: ", max_loc, "best match confidence: ", max_val)
 
     locations = np.where(result >= threshold)
@@ -97,7 +99,7 @@ def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_
         rectangles.append(rect)
         rectangles.append(rect)
 
-    rectangles, weights = cv2.groupRectangles(rectangles, 1, 0.5)
+    rectangles, weights = cv.groupRectangles(rectangles, 1, 0.5)
 
     points = []
     if len(rectangles):
@@ -105,10 +107,10 @@ def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_
 
         # dimensions of needle img
         line_color = (0, 255, 0)
-        line_type = cv2.LINE_4
+        line_type = cv.LINE_4
 
         marker_color = (255, 0, 255)
-        marker_type = cv2.MARKER_CROSS
+        marker_type = cv.MARKER_CROSS
         
         for (x, y, w, h) in rectangles:
 
@@ -126,14 +128,14 @@ def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_
                 bottom_right = (x + w, y + h)
 
                 # DRAWING THE BOX
-                cv2.rectangle(haystack, top_left, bottom_right, line_color, line_type)
+                cv.rectangle(haystack, top_left, bottom_right, line_color, line_type)
 
             elif debug_mode == 'points':
-                cv2.drawMarker(haystack, (center_x, center_y), marker_color, marker_type)
+                cv.drawMarker(haystack, (center_x, center_y), marker_color, marker_type)
         
         if debug_mode:
-            cv2.imshow('Matches', haystack)
-            cv2.waitKey()
+            cv.imshow('Matches', haystack)
+            cv.waitKey()
 
         return points
 
