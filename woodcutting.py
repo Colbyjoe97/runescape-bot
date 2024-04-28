@@ -7,7 +7,6 @@ import numpy as np
 # import win32gui, win32ui, win32con
 
 window_name = 'RuneLite'
-# hwnd = win32gui.FindWindow(None, window_name)
 
 # UNIVERSAL FUNCTIONS
 def moveRandom(img):
