@@ -4,7 +4,6 @@ import random
 import os
 import cv2 as cv
 import numpy as np
-# import win32gui, win32ui, win32con
 
 window_name = 'RuneLite'
 
@@ -139,10 +138,10 @@ def findClickPositions(needle_img_path, haystack_img_path, threshold=0.5, debug_
         return points
 
 
-points = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='points')
+points = findClickPositions('images/resources/trees/treedle.png', 'images/resources/trees/haystack.png', debug_mode='points')
 print(points)
 
-rectangles = findClickPositions('images/trees/copper.png', 'images/trees/minestack.png', debug_mode='rectangles')
+rectangles = findClickPositions('images/resources/trees/treedle.png', 'images/resources/trees/haystack.png', debug_mode='rectangles')
 print(rectangles)
 
 
