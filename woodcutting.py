@@ -19,51 +19,9 @@ bankerList = 'images/banker'
 img_list = os.listdir(bankerList)
 print(img_list)
 
-def bank():
-    for img in img_list:
-        try:
-            current_img = pyautogui.locateOnScreen(f'images/banker/{img}', confidence=0.7)
-            moveRandom(current_img)
-            pyautogui.click()
-            pyautogui.sleep(1.3)
-            print('found!!', img)
-            break
-        except:
-            print('not found')
 
 
-def gear_up():
-    try:
-        axe = pyautogui.locateOnScreen('images/tools/bAxeBank.png', confidence=0.8)
-        knife = pyautogui.locateOnScreen('images/tools/knifeBank.png', confidence=0.8)
 
-        moveRandom(knife)
-        pyautogui.click()
-        pyautogui.sleep(1)
-        
-        moveRandom(axe)
-        pyautogui.click()
-        pyautogui.sleep(1)
-
-        axe = pyautogui.locateOnScreen('images/tools/bAxeInv.png', confidence=0.8)
-        moveRandom(axe)
-
-        pyautogui.keyDown('shift')
-        pyautogui.click()
-        pyautogui.keyUp('shift')
-
-    except:
-        print('ERROR')
-
-
-def varrock_trees():
-    bond = pyautogui.locateOnScreen('images/misc/map-bond.png', confidence=0.9)
-    print(bond)
-    pyautogui.moveTo(bond.left+25, bond.top-5, duration=0.5)
-    pyautogui.click()
-    pyautogui.sleep(4.5)
-    pyautogui.click()
-    
 
 # # FINDING TREES
 
@@ -144,12 +102,3 @@ print(points)
 rectangles = findClickPositions('images/resources/trees/treedle.png', 'images/resources/trees/haystack.png', debug_mode='rectangles')
 print(rectangles)
 
-
-
-
-# setCamera()
-# bank()
-# pyautogui.sleep(2)
-# gear_up()
-# pyautogui.sleep(1)
-# varrock_trees()
