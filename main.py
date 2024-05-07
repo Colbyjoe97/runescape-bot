@@ -5,7 +5,7 @@ from time import time
 import random
 import os
 from windowCapture import WindowCapture
-from vision import findClickPositions
+from vision import Vision
 
 
 
