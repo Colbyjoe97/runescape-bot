@@ -6,18 +6,21 @@ import numpy as np
 from time import time
 from main import setCamera, randNum
 from windowCapture import WindowCapture
-from vision import findClickPositions
+from vision import Vision
 
-
+# initialize WindowCapture class
 wincap = WindowCapture('RuneLite')
+
+# initialize Vision class
+vision_copper = Vision('images/resources/ore/copper.jpg')
 
 loop_time = time()
 while(True):
 
     screenshot = wincap.get_screenshot()
 
-
-    points = findClickPositions('images/resources/ore/copper.jpg', screenshot, 0.6, 'rectangles')
+    # display processed image
+    points = vision_copper.find(screenshot, 0.6, 'rectangles')
 
     print(f'FPS {1 / (time() - loop_time)}')
     loop_time = time()
