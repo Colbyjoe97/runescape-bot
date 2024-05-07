@@ -42,6 +42,8 @@ class WindowCapture:
 
     def get_screenshot(self):
 
+        hwnd = win32gui.FindWindow(None, 'RuneLite')
+
         # GET WINDOW IMAGE DATA
         wDC = win32gui.GetWindowDC(self.hwnd)
         dcObj = win32ui.CreateDCFromHandle(wDC)
