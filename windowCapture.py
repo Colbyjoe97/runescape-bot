@@ -9,10 +9,16 @@ class WindowCapture:
     cropped_x = 0
     cropped_y = 0
 
-    def __init__(self, window_name):
-        self.hwnd = win32gui.FindWindow(None, window_name)
-        if not self.hwnd:
-            raise Exception(f'Window not found: {self.window_name}')
+    # Constructor
+    def __init__(self, window_name=None):
+
+        # if no window given, capture whole screen
+        if window_name is None:
+            self.hwnd = win32gui.GetDesktopWindow()
+        else:
+            self.hwnd = win32gui.FindWindow(None, window_name)
+            if not self.hwnd:
+                raise Exception(f'Window not found: {self.window_name}')
 
         # GET WINDOW SIZE
         window_rect = win32gui.GetWindowRect(self.hwnd)
@@ -59,6 +65,13 @@ class WindowCapture:
         img = img[...,:3]
 
         return img
+    
+    @staticmethod
+    def list_window_names():
+        def winEnumHandler(hwnd, ctx):
+            if win32gui.IsWindowVisible(hwnd):
+                print(hex(hwnd), win32gui.GetWindowText(hwnd))
+        win32gui.EnumWindows(winEnumHandler, None)
     
     def get_screen_position(self, pos):
         return (pos[0] + self.offset_x, pos[1] + self.offset_y)
