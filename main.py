@@ -34,7 +34,7 @@ def randPx(min, max):
 def setCamera():
     camera = pyautogui.locateCenterOnScreen('images/misc/compass.png', confidence=0.8)
     pyautogui.moveTo((camera[0]+randPx(-10, 10)), (camera[1]+randPx(-10, 10)), duration=0.5)
-    # pyautogui.click()
+    pyautogui.click()
 
 run = True
 while run:
