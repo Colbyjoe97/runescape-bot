@@ -28,8 +28,7 @@ while(True):
         break
 
     # SET POINT TO THE NEWEST ORE FOUND AND CLICK
-    point = points[0]
-    pyautogui.moveTo(points[0][0]-randNum(-20, 0), points[0][1]-randNum(-20, 0), duration=1)
-    pyautogui.click()
-    pyautogui.sleep(randNum(15, 20))
-        
+    # point = points[0]
+    # pyautogui.moveTo(points[0][0]-randNum(-20, 0), points[0][1]-randNum(-20, 0), duration=1)
+    # pyautogui.click()
+    # pyautogui.sleep(randNum(15, 20))
