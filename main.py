@@ -8,6 +8,7 @@ from windowCapture import WindowCapture
 
 
 wincap = WindowCapture('RuneLite')
+WindowCapture.list_window_names()
 
 loop_time = time()
 while(True):
@@ -36,14 +37,10 @@ def setCamera():
     pyautogui.moveTo((camera[0]+randPx(-10, 10)), (camera[1]+randPx(-10, 10)), duration=0.5)
     pyautogui.click()
 
+
+# # GAME SIZE = 900 x 700
 run = True
 while run:
     setCamera()
-
-# # GAME SIZE = 900 x 700
-# run = True
-# while run:
-#     setCamera()
-#     equip()
-#     run = False
+    run = False
     
