@@ -25,11 +25,20 @@ while(True):
         cv.destroyAllWindows()
         break
 
-def setCamera():
-    camera = pyautogui.locateCenterOnScreen('images/compass.png', confidence=0.8)
-    pyautogui.moveTo(camera, duration=0.5)
-    pyautogui.click()
+# Click in a random spot between given px values
+def randPx(min, max):
+    randNum = random.randint(min, max)
+    return randNum
 
+# Set camera to North 
+def setCamera():
+    camera = pyautogui.locateCenterOnScreen('images/misc/compass.png', confidence=0.8)
+    pyautogui.moveTo((camera[0]+randPx(-10, 10)), (camera[1]+randPx(-10, 10)), duration=0.5)
+    # pyautogui.click()
+
+run = True
+while run:
+    setCamera()
 
 # # GAME SIZE = 900 x 700
 # run = True
